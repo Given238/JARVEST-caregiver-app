@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Moon, Sun, AlertTriangle, Bug } from 'lucide-react';
+import { Moon, Sun, AlertTriangle, Bug, Phone } from 'lucide-react';
 import { mockDataService } from '../services/mockDataService';
 import { t } from '../services/i18n';
+
+const EMERGENCY_NUMBER = '112';
 
 export default function Header({ state }) {
   const { theme, language, vestOn } = state;
@@ -24,6 +26,22 @@ export default function Header({ state }) {
 
   const handleSimulateFall = () => {
     mockDataService.triggerFallAlert();
+  };
+
+  const handleCallEmergency = () => {
+    const msgId = `Panggilan darurat dibuat — ${EMERGENCY_NUMBER}!`;
+    const msgEn = `Emergency call initiated — ${EMERGENCY_NUMBER}!`;
+    mockDataService.logAudit('incident', msgId, msgEn);
+
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = `tel:${EMERGENCY_NUMBER}`;
+    } else {
+      const label = language === 'id'
+        ? `Memanggil Layanan Darurat ${EMERGENCY_NUMBER}...`
+        : `Dialing Emergency Service ${EMERGENCY_NUMBER}...`;
+      alert(label);
+    }
   };
 
   return (
@@ -117,6 +135,19 @@ export default function Header({ state }) {
             {language === 'id' ? 'Simulasi Jatuh' : 'Simulate Fall'}
           </button>
         )}
+
+        {/* Call Emergency */}
+        <a
+          href={`tel:${EMERGENCY_NUMBER}`}
+          onClick={(e) => {
+            e.preventDefault();
+            handleCallEmergency();
+          }}
+          className="flex items-center gap-1.5 text-sm font-bold px-3 py-1.5 rounded-lg bg-rose-600 text-white hover:bg-rose-700 transition-colors shadow-lg"
+        >
+          <Phone size={14} />
+          {language === 'id' ? 'Hubungi Darurat' : 'Call Emergency'}
+        </a>
       </div>
     </header>
   );

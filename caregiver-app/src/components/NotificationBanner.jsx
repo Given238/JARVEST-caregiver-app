@@ -1,12 +1,59 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AlertTriangle, Volume2, VolumeX, Phone, X, Clock } from 'lucide-react';
 import { mockDataService, DANGER_LEVELS } from '../services/mockDataService';
 import { playEmergencySound, stopEmergencySound } from '../utils/soundService';
 
+const EMERGENCY_NUMBER = '112';
+const FALLBACK_NUMBER = '119';
+
+function DesktopFallbackModal({ open, onClose, number }) {
+  const labelId = `Tel: Dialing Emergency Service ${number}...`;
+  const msgId = `Memanggil Layanan Darurat ${number}...`;
+  const msgEn = `Dialing Emergency Service ${number}...`;
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl border border-rose-500">
+        <div className="flex items-center gap-3 mb-4">
+          <Phone className="text-rose-600" size={28} />
+          <div>
+            <p className="text-rose-600 font-bold text-base">{labelId}</p>
+            <p className="text-slate-500 text-sm">{language === 'id' ? msgId : msgEn}</p>
+          </div>
+        </div>
+        <p className="text-slate-600 dark:text-slate-300 text-sm mb-5">
+          {language === 'id'
+            ? `Buka aplikasi telepon di perangkat mobile Anda dan hubungi:`
+            : `Open the phone app on your mobile device and dial:`}
+        </p>
+        <div className="bg-rose-50 dark:bg-rose-900/30 border border-rose-300 dark:border-rose-700 rounded-xl p-4 text-center mb-5">
+          <a
+            href={`tel:${number}`}
+            className="text-3xl font-black text-rose-600 hover:text-rose-700 underline decoration-2"
+          >
+            {number}
+          </a>
+        </div>
+        <button
+          onClick={onClose}
+          className="w-full py-2.5 rounded-xl bg-rose-600 text-white font-semibold hover:bg-rose-700 transition-colors"
+        >
+          {language === 'id' ? 'Tutup' : 'Close'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+let language = 'id';
+
 export default function NotificationBanner({ state }) {
-  const { activeNotification, patient, language, theme } = state;
+  const { activeNotification, patient, theme } = state;
   const isDark = theme === 'dark';
   const audioStartedRef = useRef(false);
+  const [showFallback, setShowFallback] = useState(false);
+
+  language = state.language;
 
   useEffect(() => {
     if (activeNotification && !audioStartedRef.current) {
@@ -36,11 +83,22 @@ export default function NotificationBanner({ state }) {
     audioStartedRef.current = false;
   };
 
-  const handleCallEmergency = () => {
-    const msgId = 'Panggilan darurat dibuat!';
-    const msgEn = 'Emergency call initiated!';
+  const handleCallEmergency = (fallback = false) => {
+    const msgId = `Panggilan darurat dibuat — ${EMERGENCY_NUMBER}!`;
+    const msgEn = `Emergency call initiated — ${EMERGENCY_NUMBER}!`;
     mockDataService.logAudit('incident', msgId, msgEn);
-    alert(language === 'id' ? 'Panggilan darurat terhubung...' : 'Emergency call connected...');
+
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = `tel:${EMERGENCY_NUMBER}`;
+    } else {
+      setShowFallback(true);
+    }
+  };
+
+  const handleFallbackDial = (number) => {
+    setShowFallback(false);
+    window.location.href = `tel:${number}`;
   };
 
   const getSeverityLabel = () => {
@@ -90,7 +148,13 @@ export default function NotificationBanner({ state }) {
   };
 
   return (
-    <div className="w-[92%] sm:w-full max-w-lg fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4">
+    <>
+      <DesktopFallbackModal
+        open={showFallback}
+        onClose={() => setShowFallback(false)}
+        number={EMERGENCY_NUMBER}
+      />
+      <div className="w-[92%] sm:w-full max-w-lg fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4">
       <div
         className={`relative rounded-2xl border-2 ${isDark ? 'bg-slate-800 border-rose-500' : 'bg-white border-rose-600'} shadow-2xl overflow-hidden`}
       >
@@ -172,16 +236,20 @@ export default function NotificationBanner({ state }) {
               <Volume2 size={14} />
               {acknowledgeText}
             </button>
-            <button
-              onClick={handleCallEmergency}
+            <a
+              href={`tel:${EMERGENCY_NUMBER}`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleCallEmergency();
+              }}
               className="flex-[1.5] flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg min-h-11 text-sm font-bold bg-rose-600 text-white hover:bg-rose-700 transition-colors shadow-lg"
             >
               <Phone size={14} />
               {emergencyText}
-            </button>
+            </a>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
