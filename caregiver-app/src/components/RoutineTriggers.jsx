@@ -80,34 +80,34 @@ export default function RoutineTriggers({ state }) {
         {routines.map((routine) => (
           <div
             key={routine.id}
-            className={`flex items-center justify-between rounded-xl px-4 py-3 ${isDark ? 'bg-slate-700/50' : 'bg-slate-50'}`}
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-center gap-3 rounded-xl px-4 py-3 ${isDark ? 'bg-slate-700/50' : 'bg-slate-50'}`}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 min-w-0">
               <button
                 onClick={() => handlePlay(routine)}
-                className="flex items-center justify-center w-8 h-8 rounded-full bg-sky-500/10 text-sky-500 hover:bg-sky-500 hover:text-white transition-colors"
+                className="flex items-center justify-center w-11 h-11 rounded-full bg-sky-500/10 text-sky-500 hover:bg-sky-500 hover:text-white transition-colors flex-shrink-0"
                 title={T('routines.playSimulate')}
               >
                 <Play size={14} fill="currentColor" />
               </button>
-              <div>
-                <div className={`font-semibold text-sm ${textPrimary}`}>{routine.name}</div>
-                <div className={`text-xs ${textSecondary}`}>
+              <div className="min-w-0">
+                <div className={`font-semibold text-sm truncate ${textPrimary}`}>{routine.name}</div>
+                <div className={`text-xs truncate ${textSecondary}`}>
                   {T('routines.time')}: {routine.times.join(', ')}
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 sm:col-span-1 lg:col-span-2">
               <button
                 onClick={() => handleEditOpen(routine)}
-                className={`p-1.5 rounded-lg ${isDark ? 'hover:bg-slate-600 text-slate-400' : 'hover:bg-slate-200 text-slate-500'} transition-colors`}
+                className={`p-2.5 rounded-lg min-w-11 min-h-11 flex items-center justify-center ${isDark ? 'hover:bg-slate-600 text-slate-400' : 'hover:bg-slate-200 text-slate-500'} transition-colors`}
                 title={T('routines.edit')}
               >
                 <Pencil size={14} />
               </button>
               <button
                 onClick={() => handleRemove(routine.id)}
-                className="text-xs font-medium px-3 py-1 rounded-lg bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-colors"
+                className="text-xs font-medium px-3 py-2.5 rounded-lg min-h-11 flex items-center bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-colors"
               >
                 {T('routines.remove')}
               </button>

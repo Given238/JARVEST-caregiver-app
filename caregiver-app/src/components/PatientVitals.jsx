@@ -63,7 +63,7 @@ export default function PatientVitals({ state }) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Patient Profile Card */}
         <div className={`rounded-2xl border p-5 ${cardClass} ${isInDanger ? dangerCardClass : ''}`}>
           <div className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: '#38bdf8' }}>
@@ -84,7 +84,7 @@ export default function PatientVitals({ state }) {
         </div>
 
         {/* Live Vitals Grid */}
-        <div className={`rounded-2xl border p-5 lg:col-span-2 ${cardClass} ${isInDanger ? dangerCardClass : ''}`}>
+        <div className={`rounded-2xl border p-5 lg:col-span-3 ${cardClass} ${isInDanger ? dangerCardClass : ''}`}>
           <div className="flex items-center justify-between mb-4">
             <div className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#38bdf8' }}>
               {T('patient.vitals')}
@@ -96,7 +96,7 @@ export default function PatientVitals({ state }) {
               </div>
             )}
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {/* Heart Rate */}
             <div className={`rounded-xl p-4 ${statCardClass} ${vitals.heartRate > 120 || vitals.heartRate < 50 ? dangerCardClass : ''}`}>
               <div className="flex items-center gap-2 mb-2">
@@ -196,7 +196,7 @@ export default function PatientVitals({ state }) {
                     max="180"
                     value={debugVitals.heartRate}
                     onChange={(e) => handleDebugChange('heartRate', parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500"
+                    className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-500/50"
                   />
                   <div className="flex justify-between mt-1">
                     <span className={`text-xs ${textSecondary}`}>30</span>
@@ -216,7 +216,7 @@ export default function PatientVitals({ state }) {
                     max="420"
                     value={debugVitals.bodyTemp * 10}
                     onChange={(e) => handleDebugChange('bodyTemp', parseInt(e.target.value) / 10)}
-                    className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                    className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50"
                   />
                   <div className="flex justify-between mt-1">
                     <span className={`text-xs ${textSecondary}`}>35.0</span>
@@ -236,7 +236,7 @@ export default function PatientVitals({ state }) {
                     max="200"
                     value={debugVitals.airQuality}
                     onChange={(e) => handleDebugChange('airQuality', parseInt(e.target.value))}
-                    className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                    className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                   />
                   <div className="flex justify-between mt-1">
                     <span className={`text-xs ${textSecondary}`}>0</span>

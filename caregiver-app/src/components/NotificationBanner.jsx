@@ -90,7 +90,7 @@ export default function NotificationBanner({ state }) {
   };
 
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-xl px-4">
+    <div className="w-[92%] sm:w-full max-w-lg fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4">
       <div
         className={`relative rounded-2xl border-2 ${isDark ? 'bg-slate-800 border-rose-500' : 'bg-white border-rose-600'} shadow-2xl overflow-hidden`}
       >
@@ -149,10 +149,10 @@ export default function NotificationBanner({ state }) {
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-2 mt-4">
+          <div className="flex flex-col xs:flex-row items-stretch gap-2 mt-4">
             <button
               onClick={handleAcknowledge}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-sm font-semibold transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg min-h-11 text-sm font-semibold transition-colors ${
                 isDark
                   ? 'bg-slate-700 text-slate-200 hover:bg-slate-600 border border-slate-600'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
@@ -163,7 +163,7 @@ export default function NotificationBanner({ state }) {
             </button>
             <button
               onClick={handleAcknowledge}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-sm font-semibold transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg min-h-11 text-sm font-semibold transition-colors ${
                 isDark
                   ? 'bg-rose-900/50 text-rose-300 hover:bg-rose-900/70 border border-rose-700'
                   : 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200'
@@ -174,7 +174,7 @@ export default function NotificationBanner({ state }) {
             </button>
             <button
               onClick={handleCallEmergency}
-              className="flex-[1.5] flex items-center justify-center gap-1.5 py-2 px-4 rounded-lg text-sm font-bold bg-rose-600 text-white hover:bg-rose-700 transition-colors shadow-lg"
+              className="flex-[1.5] flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg min-h-11 text-sm font-bold bg-rose-600 text-white hover:bg-rose-700 transition-colors shadow-lg"
             >
               <Phone size={14} />
               {emergencyText}

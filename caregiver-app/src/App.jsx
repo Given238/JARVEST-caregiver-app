@@ -29,7 +29,7 @@ export default function App() {
       <NotificationBanner state={state} />
       <Header state={state} />
 
-      <main className="max-w-6xl mx-auto px-4 py-6 space-y-5">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5 pb-8">
         {/* Patient Profile & Vitals */}
         <PatientVitals state={state} />
 

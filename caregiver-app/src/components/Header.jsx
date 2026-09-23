@@ -28,7 +28,7 @@ export default function Header({ state }) {
 
   return (
     <header
-      className={`flex items-center justify-between px-6 py-4 border-b ${
+      className={`flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 px-4 sm:px-6 py-4 border-b ${
         isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
       }`}
     >
@@ -43,7 +43,7 @@ export default function Header({ state }) {
         </span>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-3">
         {/* Language Toggle */}
         <button
           onClick={handleLangToggle}

@@ -44,7 +44,7 @@ export default function AuditTimeline({ state }) {
         {auditLog.map((entry) => (
           <div
             key={entry.id}
-            className={`flex items-start gap-3 rounded-xl px-4 py-3 ${entry.type === 'incident' ? (isDark ? 'bg-rose-900/20 border border-rose-800/30' : 'bg-rose-50 border border-rose-100') : bgSubtle}`}
+            className={`flex flex-col sm:flex-row sm:items-start gap-3 rounded-xl px-4 py-3 ${entry.type === 'incident' ? (isDark ? 'bg-rose-900/20 border border-rose-800/30' : 'bg-rose-50 border border-rose-100') : bgSubtle}`}
           >
             <div className={`mt-0.5 p-1.5 rounded-lg ${entry.type === 'incident' ? 'bg-rose-500/10 text-rose-500' : 'bg-sky-500/10 text-sky-500'}`}>
               {entry.type === 'incident' ? <AlertTriangle size={14} /> : <ListChecks size={14} />}
@@ -62,7 +62,7 @@ export default function AuditTimeline({ state }) {
             {entry.type === 'incident' && (
               <button
                 onClick={handleCallEmergency}
-                className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-600 transition-colors whitespace-nowrap"
+                className="flex items-center justify-center gap-1.5 text-xs font-bold px-3 py-2.5 rounded-lg min-h-11 min-w-11 bg-rose-500 text-white hover:bg-rose-600 transition-colors whitespace-nowrap"
               >
                 <Phone size={11} />
                 {T('audit.callEmergency')}
